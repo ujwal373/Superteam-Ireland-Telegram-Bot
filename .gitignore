@@ -1,21 +1,34 @@
-# Environment files
-.env
-
-# Python cache
+# Python
 __pycache__/
-*.pyc
-*.pyo
+*.py[cod]
+*.egg
+*.egg-info/
+*.so
 *.pyd
-*.db
+*.pyo
 
-# Virtual envs
+# Virtual environments
 .venv/
-venv/
 env/
+venv/
+ENV/
+*.env
 
-# Logs
+# Secrets
+.env
+*.key
+*.pem
+
+# Config & local files
+config.yaml
 *.log
-
-# System files
+*.sqlite3
+*.db
 .DS_Store
-Thumbs.db
+
+# VSCode / IDE
+.vscode/
+.idea/
+
+# Render / Deployment
+*.render.yaml.local
