@@ -1,0 +1,7 @@
+python-telegram-bot==20.7
+requests
+httpx
+python-dotenv
+pyyaml
+icalendar
+google-generativeai
