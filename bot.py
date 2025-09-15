@@ -108,7 +108,7 @@ def main():
     app.add_handler(CommandHandler("subscribe", alerts.subscribe))
     app.add_handler(CommandHandler("unsubscribe", alerts.unsubscribe))
     # app.add_handler(CommandHandler("testalert", alerts.testalert))
-    #app.add_handler(CommandHandler("digestnow", alerts.digestnow))
+    # app.add_handler(CommandHandler("digestnow", alerts.digestnow))
 
     # Group mention handler
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, mention_handler))
@@ -124,26 +124,25 @@ def main():
 
     app.post_init = on_startup
 
-    logger.info("Bot started…")
-    app.run_polling()
+    logger.info("Bot starting in webhook mode…")
 
-import threading
-from http.server import BaseHTTPRequestHandler, HTTPServer
-import os
-
-class HealthHandler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        self.send_response(200)
-        self.end_headers()
-        self.wfile.write(b"Bot is running!")
-
-def run_health_server():
+    # --- Webhook setup ---
     port = int(os.getenv("PORT", 8080))
-    server = HTTPServer(("0.0.0.0", port), HealthHandler)
-    server.serve_forever()
+    webhook_url = os.getenv("WEBHOOK_URL")  # set in Cloud Run env vars
 
-# start tiny webserver in background
-threading.Thread(target=run_health_server, daemon=True).start()
+    # Health check endpoint
+    from aiohttp import web
+    async def health(request):
+        return web.Response(text="Bot is alive!")
+
+    app.web_app.router.add_get("/", health)
+
+    # Run webhook server
+    app.run_webhook(
+        listen="0.0.0.0",
+        port=port,
+        webhook_url=f"{webhook_url}/webhook"
+    )
 
 
 if __name__ == "__main__":
