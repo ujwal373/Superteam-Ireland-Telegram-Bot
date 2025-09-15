@@ -19,16 +19,6 @@ ENV/
 *.key
 *.pem
 
-# Config & local files
-config.yaml
-*.log
-*.sqlite3
-*.db
-.DS_Store
-
 # VSCode / IDE
 .vscode/
 .idea/
-
-# Render / Deployment
-*.render.yaml.local
