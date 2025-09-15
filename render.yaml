@@ -4,7 +4,7 @@ services:
     env: python
     buildCommand: |
       pip install --upgrade pip
-      pip install --no-cache-dir --upgrade --force-reinstall -r requirements.txt
+      pip install --no-cache-dir --force-reinstall -r requirements.txt
     startCommand: python bot.py
     envVars:
       - key: TELEGRAM_TOKEN
