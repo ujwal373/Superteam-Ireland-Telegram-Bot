@@ -127,6 +127,24 @@ def main():
     logger.info("Bot started…")
     app.run_polling()
 
+import threading
+from http.server import BaseHTTPRequestHandler, HTTPServer
+import os
+
+class HealthHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write(b"Bot is running!")
+
+def run_health_server():
+    port = int(os.getenv("PORT", 8080))
+    server = HTTPServer(("0.0.0.0", port), HealthHandler)
+    server.serve_forever()
+
+# start tiny webserver in background
+threading.Thread(target=run_health_server, daemon=True).start()
+
 
 if __name__ == "__main__":
     main()
