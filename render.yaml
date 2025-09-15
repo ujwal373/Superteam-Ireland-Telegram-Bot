@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: superteam-ireland-bot
+    env: python
+    buildCommand: |
+      pip install --upgrade pip
+      pip install --no-cache-dir --upgrade --force-reinstall -r requirements.txt
+    startCommand: python bot.py
+    envVars:
+      - key: TELEGRAM_TOKEN
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
