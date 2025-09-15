@@ -1,28 +1,21 @@
-# Python
+# Environment files
+.env
+
+# Python cache
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 *.db
 
-# Virtual environment
+# Virtual envs
 .venv/
-env/
 venv/
+env/
 
-# Local uploads
-uploads/
+# Logs
+*.log
 
-# IDE / editor
-.vscode/
-.idea/
-
-# OS files
+# System files
 .DS_Store
 Thumbs.db
-
-# Secrets
-.env
-
-# Local csv
-onboarding_users.csv
