@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+
+# Virtual environment
+.venv/
+env/
+venv/
+
+# Local uploads
+uploads/
+
+# IDE / editor
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Secrets
+.env
+
+# Local csv
+onboarding_users.csv
