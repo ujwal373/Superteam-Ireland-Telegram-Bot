@@ -135,3 +135,11 @@ If you’d like to extend this bot (e.g. custom NLP, better UI, multi-region bou
 👉 [@SuperteamIrelandBot](https://t.me/SuperteamIrelandBot)  
 
 ☘️ *Small Country, Big at Heart — Powered by Solana, Web3, and community.*  
+
+---
+
+## 👤 Author  
+
+**Ujwal Mojidra**  
+📧 Email: [ujwal.mojidra@gmail.com](mailto:ujwal.mojidra@gmail.com)  
+🔗 LinkedIn: [linkedin.com/in/ujwalmojidra](https://www.linkedin.com/in/ujwalmojidra/)  
