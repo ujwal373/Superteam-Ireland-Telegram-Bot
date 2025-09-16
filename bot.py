@@ -121,6 +121,16 @@ def main():
                 interval_minutes=CONFIG.get("schedule", {}).get("bounty_check_minutes", 10)
             )
         )
+    # daily digest for fixed group
+        group_chat_id = int(CONFIG.get("group_chat_id", -1002937891185))  # replace with your group id
+        asyncio.create_task(
+            alerts.digest_loop(
+                app.bot,
+                digest_time_str="08:00",   # 8 AM
+                tz_name="Europe/Dublin",
+                group_chat_id=group_chat_id
+            )
+        )
 
     app.post_init = on_startup
 
