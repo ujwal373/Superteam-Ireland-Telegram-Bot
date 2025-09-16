@@ -124,25 +124,8 @@ def main():
 
     app.post_init = on_startup
 
-    logger.info("Bot starting in webhook mode…")
-
-    # --- Webhook setup ---
-    port = int(os.getenv("PORT", 8080))
-    webhook_url = os.getenv("WEBHOOK_URL")  # set in Cloud Run env vars
-
-    # Health check endpoint
-    from aiohttp import web
-    async def health(request):
-        return web.Response(text="Bot is alive!")
-
-    app.web_app.router.add_get("/", health)
-
-    # Run webhook server
-    app.run_webhook(
-        listen="0.0.0.0",
-        port=port,
-        webhook_url=f"{webhook_url}/webhook"
-    )
+    logger.info("Bot started in polling mode…")
+    app.run_polling()   # <--- switched to polling
 
 
 if __name__ == "__main__":
