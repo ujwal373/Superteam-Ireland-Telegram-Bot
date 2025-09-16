@@ -227,4 +227,4 @@ async def digestnow(update, context):
     """Manually trigger the morning digest for testing."""
     group_id = update.message.chat_id  # send digest in the same chat
     await send_morning_digest(context.bot, group_id)
-    await update.message.reply_text("✅ Morning digest sent here.")
+    #await update.message.reply_text("✅ Morning digest sent here.")
