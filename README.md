@@ -76,17 +76,53 @@ python bot.py
 
 ---
 
-## 🚀 Deployment on Render  
+## 🚀 Deployment on Google Cloud VM  
 
-1. Push this repo to GitHub.  
-2. Create a new **Web Service** on [Render](https://render.com/).  
-3. Select **Python 3** environment.  
-4. Add `.env` variables in **Render > Environment > Secret Files**.  
-5. Add this as the **Start Command**:  
+We deployed this bot on **Google Cloud Compute Engine**, using free monthly credits.  
+Follow these steps if you want to replicate:  
+
+1. **Push this repo to GitHub**  
+   Make sure your `.env` file is ignored via `.gitignore`.  
+
+2. **Create a Compute Engine VM** on [Google Cloud](https://cloud.google.com/compute)  
+   - OS: Ubuntu 22.04 LTS (recommended)  
+   - Machine type: `e2-micro` (eligible for free tier / credits)  
+   - Allow HTTP/HTTPS traffic  
+
+3. **SSH into your VM** from Google Cloud Console  
+
+4. **Install dependencies**  
    ```bash
+   sudo apt update && sudo apt install -y python3 python3-pip git
+5. **Clone your GitHub repo**
+    ``` bash
+    git clone https://github.com/your-username/superteam-ireland-bot.git
+    cd superteam-ireland-bot
+6. **Set up environment variables**
+    Copy your `.env` file (contains `TELEGRAM_TOKEN`, `GEMINI_API_KEY`, etc.) into the VM.
+    You can upload it manually or create it directly in the VM:
+   ```bash
+   nano .env   
+7. **Install Python requirements**
+   ```bash
+    pip install -r requirements.txt
+8. **Run the bot**
+   ```bash
+    python bot.py
+9. **Keep it running in the background (so it doesn’t stop when you close SSH)**
+    Option A — use `tmux`:
+   ```bash
+   sudo apt install tmux
+   tmux new -s bot
    python bot.py
-   ```  
-6. Deploy → your bot runs **24/7 🎉**  
+(Detach with Ctrl+B then D, reattach with tmux attach -t bot)
+    Option B — use `pm2` (process manager):
+  ```bash
+    pip install pm2
+    pm2 start bot.py --interpreter=python3
+    pm2 startup
+    pm2 save
+``` 
 
 ---
 
