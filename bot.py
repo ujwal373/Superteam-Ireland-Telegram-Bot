@@ -48,12 +48,12 @@ async def start(update, context):
 async def help_cmd(update, context):
     text = (
         "🛠️ *Here’s how you can use me:*\n\n"
-        "• `/faq <your question>` → Ask me about Superteam Ireland, events, or programs\n"
-        "• `/events` → See the next 5 upcoming events\n"
-        "• `/bounties` → Check the latest live bounties (with rewards & deadlines)\n"
-        "• `/subscribe` → Get DM alerts when new bounties/events drop\n"
-        "• `/unsubscribe` → Stop alerts anytime\n\n"
-        "_Tip: In group chats, just mention me with a question (e.g. `@SuperteamIrelandBot When’s the next Talent Hub?`) and I’ll reply._"
+        "• /faq `<your question>` → Ask me about Superteam Ireland, events, or programs\n"
+        "• /events → See the next 5 upcoming events\n"
+        "• /bounties → Check the latest live bounties (with rewards & deadlines)\n"
+        "• /subscribe → Get DM alerts when new bounties/events drop\n"
+        "• /unsubscribe → Stop alerts anytime\n\n"
+        "_Tip: In group chats, just mention me with a question (e.g. Hi `@SuperteamIrelandBot when’s the next Talent Hub?`) and I’ll reply._"
     )
     await update.message.reply_text(text, parse_mode="Markdown")
 

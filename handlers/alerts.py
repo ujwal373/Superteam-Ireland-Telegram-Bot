@@ -59,45 +59,59 @@ async def send_alert(bot: Bot, message: str):
             logger.warning(f"Failed to send alert to {user_id}: {e}")
 
 
-# --- Gemini opener (daily quotes) ---
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-GEMINI_MODEL = "gemini-1.5-flash"
+# --- OpenAI opener (daily quotes) ---
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
 
 async def generate_opener():
-    if not GEMINI_API_KEY:
+    if not OPENAI_API_KEY:
         return (
             "“Builders write history in code, not in headlines.” ☘️\n"
             "#solana #web3 #community #smallcountrybigatheart #superteamireland"
         )
 
-    prompt = (
-        "You are an inspirational Irish storyteller speaking to a Web3 builder community. "
+    system_msg = (
+        "You are an inspirational Irish storyteller speaking to a Web3 builder community."
+    )
+    user_msg = (
         "Generate ONE short motivational quote (not a casual greeting), around 25 words, "
-        "about crypto, builders, or community spirit. "
-        "Make it sound like a proverb or wise saying, with a subtle Irish touch (not cheesy). "
-        "At the end, put these hashtags on a NEW LINE:\n"
+        "about crypto, builders, or community spirit. Make it sound like a proverb or wise saying, "
+        "with a subtle Irish touch (not cheesy). At the end, put these hashtags on a NEW LINE:\n"
         "#solana #web3 #community #smallcountrybigatheart #superteamireland"
     )
 
     try:
         async with httpx.AsyncClient(timeout=10) as client:
             resp = await client.post(
-                f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent?key={GEMINI_API_KEY}",
-                json={"contents": [{"parts": [{"text": prompt}]}]},
+                "https://api.openai.com/v1/chat/completions",
+                headers={
+                    "Authorization": f"Bearer {OPENAI_API_KEY}",
+                    "Content-Type": "application/json",
+                },
+                json={
+                    "model": OPENAI_MODEL,
+                    "messages": [
+                        {"role": "system", "content": system_msg},
+                        {"role": "user", "content": user_msg},
+                    ],
+                    "temperature": 0.6,
+                    "max_tokens": 120,
+                },
             )
             resp.raise_for_status()
             data = resp.json()
-            text = data["candidates"][0]["content"]["parts"][0]["text"].strip()
+            text = data["choices"][0]["message"]["content"].strip()
             # Safety: ensure hashtags at the end
             if "#solana" not in text:
                 text += "\n#solana #web3 #community #smallcountrybigatheart #superteamireland"
             return text
     except Exception as e:
-        logger.warning(f"Gemini opener failed: {e}")
+        logger.warning(f"OpenAI opener failed: {e}")
         return (
             "“When markets dip, true builders rise.” ☘️\n"
             "#solana #web3 #community #smallcountrybigatheart #superteamireland"
         )
+
 
 # --- Bounty alerts ---
 async def check_bounties(bot: Bot):
