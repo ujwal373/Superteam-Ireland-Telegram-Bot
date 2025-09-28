@@ -5,6 +5,7 @@ from pathlib import Path
 from telegram import Update
 from telegram.ext import ContextTypes
 import httpx
+from typing import Optional
 
 logger = logging.getLogger(__name__)
 
@@ -193,7 +194,7 @@ def build_messages_html(context_text: str, question: str):
 # ──────────────────────────────────────────────────────────────────────────────
 # @mention → route to /faq in GROUP/SUPERGROUP (privacy disabled)
 # ──────────────────────────────────────────────────────────────────────────────
-_BOT_USERNAME_CACHE: str | None = None
+_BOT_USERNAME_CACHE: Optional[str] = None
 
 async def _bot_username_lower(context) -> str:
     global _BOT_USERNAME_CACHE
