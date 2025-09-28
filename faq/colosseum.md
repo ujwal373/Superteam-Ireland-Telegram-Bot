@@ -10,6 +10,6 @@ What happens in the Colosseum?
 - 🏆 **Recognition** — The best ideas gain visibility and sometimes rewards.  
 - 🤝 **Networking** — Investors, founders, and community members often tune in.  
 
-👉 Keep an eye on [Superteam Earn](https://earn.superteam.fun/colosseum) for upcoming sessions.
+👉 Keep an eye on [Superteam Earn](https://earn.superteam.fun/hackathon/breakout) for upcoming sessions.
 
 It’s not about winning or losing — it’s about **refining your project, getting feedback, and connecting with supporters**.  

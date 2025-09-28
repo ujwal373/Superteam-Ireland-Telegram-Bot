@@ -3,8 +3,8 @@
 Joining **Superteam Ireland** is simple and open to anyone who wants to build, learn, and grow in Web3.
 
 👉 **Step 1:** Visit our [Superteam Ireland Portal](https://bento.me/superteamie).  
-👉 **Step 2:** Fill in the form to introduce yourself and your skills.  
-👉 **Step 3:** Join our community spaces where most of the magic happens.  
+👉 **Step 2:** Check the calendar for upcoming meetups or events, and register.  
+👉 **Step 3:** Show up on the day and say hello to the organisers — we’ll get you onboarded and acquainted with the environment. ☘️  
 
 Once you’re in, you’ll gain access to:
 
