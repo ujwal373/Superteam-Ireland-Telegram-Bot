@@ -9,6 +9,7 @@ import asyncio
 from telegram.ext import MessageHandler, filters
 load_dotenv()
 from handlers import faq, events, bounties, alerts
+from handlers.faq import faq, mention_to_faq
 import time
 last_group_reply = {}
 
@@ -107,11 +108,12 @@ def main():
     app.add_handler(CommandHandler("bounties", bounties.bounties))
     app.add_handler(CommandHandler("subscribe", alerts.subscribe))
     app.add_handler(CommandHandler("unsubscribe", alerts.unsubscribe))
+    application.add_handler(CommandHandler("faq", faq))
     # app.add_handler(CommandHandler("testalert", alerts.testalert))
     # app.add_handler(CommandHandler("digestnow", alerts.digestnow))
 
-    # Group mention handler
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, mention_handler))
+    # Then the mention router for group text messages
+    application.add_handler(MessageHandler(filters.ChatType.GROUPS & filters.TEXT, mention_to_faq))
 
     # Startup hook
     async def on_startup(app):

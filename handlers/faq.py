@@ -190,6 +190,65 @@ def build_messages_html(context_text: str, question: str):
         "<b>Answer:</b>"
     )
     return system_msg, user_msg
+# ──────────────────────────────────────────────────────────────────────────────
+# @mention → route to /faq in GROUP/SUPERGROUP (privacy disabled)
+# ──────────────────────────────────────────────────────────────────────────────
+_BOT_USERNAME_CACHE: str | None = None
+
+async def _bot_username_lower(context) -> str:
+    global _BOT_USERNAME_CACHE
+    if _BOT_USERNAME_CACHE:
+        return _BOT_USERNAME_CACHE
+    uname = context.bot.username
+    if not uname:
+        me = await context.bot.get_me()
+        uname = me.username
+    _BOT_USERNAME_CACHE = (uname or "").lower()
+    return _BOT_USERNAME_CACHE
+
+async def mention_to_faq(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """
+    When someone writes '@YourBot question…' in a group/supergroup,
+    strip the mention and hand off to the existing faq() handler.
+    """
+    msg = update.effective_message
+    if not msg:
+        return
+    text = (msg.text or msg.caption or "").strip()
+    if not text:
+        return
+
+    # Only handle plain text in groups; let real slash commands go to CommandHandlers
+    if text.startswith("/"):
+        return
+    if update.effective_chat.type not in ("group", "supergroup"):
+        return
+
+    bot_uname = await _bot_username_lower(context)
+    if not bot_uname or f"@{bot_uname}" not in text.lower():
+        return
+
+    # Remove any @YourBot mentions (robust to spaces/punct)
+    import re as _re
+    pattern = _re.compile(fr'@\s*{_re.escape(bot_uname)}', _re.I)
+    q = pattern.sub("", text).strip()
+    # Trim leading separators like ':', '-', ',', '—'
+    q = _re.sub(r'^[\s:,\-–—]+', '', q)
+
+    if not q:
+        # Mentioned with no question → nudge to use /faq prefix
+        await update.message.reply_text(
+            "👋 <b>Hey!</b> Start your question with <code>/faq</code> so I can help.\n"
+            "• <code>/faq upcoming meetups</code>\n"
+            "• <code>/faq how to join Superteam Ireland</code>",
+            parse_mode="HTML",
+            disable_web_page_preview=True,
+        )
+        return
+
+    # Reuse your existing /faq logic
+    context.args = q.split()
+    await faq(update, context)
 
 # ──────────────────────────────────────────────────────────────────────────────
 # /faq command handler
