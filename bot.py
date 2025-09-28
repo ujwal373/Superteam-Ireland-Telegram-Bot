@@ -9,7 +9,6 @@ import asyncio
 from telegram.ext import MessageHandler, filters
 load_dotenv()
 from handlers import faq, events, bounties, alerts
-from handlers.faq import faq, mention_to_faq
 import time
 last_group_reply = {}
 
@@ -54,7 +53,7 @@ async def help_cmd(update, context):
         "• /bounties → Check the latest live bounties (with rewards & deadlines)\n"
         "• /subscribe → Get DM alerts when new bounties/events drop\n"
         "• /unsubscribe → Stop alerts anytime\n\n"
-        "_Tip: In group chats, just mention me with a question (e.g. Hi `@SuperteamIrelandBot when’s the next Talent Hub?`) and I’ll reply._"
+        "_Tip: In group chats, just mention me with a question (e.g. Hi `@SuperteamIrelandBot hen’s the next Talent Hub?`) and I’ll reply._"
     )
     await update.message.reply_text(text, parse_mode="Markdown")
 
@@ -108,12 +107,11 @@ def main():
     app.add_handler(CommandHandler("bounties", bounties.bounties))
     app.add_handler(CommandHandler("subscribe", alerts.subscribe))
     app.add_handler(CommandHandler("unsubscribe", alerts.unsubscribe))
-    application.add_handler(CommandHandler("faq", faq))
     # app.add_handler(CommandHandler("testalert", alerts.testalert))
     # app.add_handler(CommandHandler("digestnow", alerts.digestnow))
 
-    # Then the mention router for group text messages
-    application.add_handler(MessageHandler(filters.ChatType.GROUPS & filters.TEXT, mention_to_faq))
+    # Group mention handler
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, mention_handler))
 
     # Startup hook
     async def on_startup(app):
