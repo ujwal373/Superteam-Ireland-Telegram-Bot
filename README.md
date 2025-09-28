@@ -53,7 +53,7 @@ pip install -r requirements.txt
 Create a `.env` file in the project root:  
 ```env
 TELEGRAM_TOKEN=your-telegram-bot-token
-GEMINI_API_KEY=your-gemini-api-key
+OPENAI_API_KEY=your-openai-api-key
 ```
 
 ⚠️ Make sure `.env` is added to `.gitignore` (already included).  
